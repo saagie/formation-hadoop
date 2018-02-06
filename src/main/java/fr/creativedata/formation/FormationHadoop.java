@@ -52,10 +52,39 @@ public class FormationHadoop  {
 	}
 
 	public static void main(String[] args) {
-		//TODO
+		
+        // Avro Schema
+        Schema.Parser parser = new Schema.Parser();
+        Schema schema = parser.parse(FormationHadoop.class.getClassLoader().getResourceAsStream("avro/User.avsc"));
 
 
 	}
+	
+	 private static User generateRandomUser() {
+
+        Random r = new Random();
+
+        Firstname firstname = firstnames.get(r.nextInt(firstnames.size()));
+
+        String[] listProfiles = {"profile1", "profile2", "profile3", "profile4", "profile5"};
+
+        Set<String> profiles = new HashSet<>();
+        profiles.add(listProfiles[r.nextInt(listProfiles.length)]);
+        profiles.add(listProfiles[r.nextInt(listProfiles.length)]);
+        profiles.add(listProfiles[r.nextInt(listProfiles.length)]);
+
+        User userRandom= User.newBuilder()
+                .setFirstname(firstname.firstname)
+                .setAge(RandomUtils.nextInt(100))
+                .setSex(firstname.sexe.name())
+                .setDepartment(RandomUtils.nextInt(95))
+                .setHasLoyaltyCardNumber(RandomUtils.nextBoolean())
+                .setProfiles(new ArrayList<>(profiles))
+                .build();
+
+        return userRandom;
+
+    }
 
 
 
